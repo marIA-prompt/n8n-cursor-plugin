@@ -15,7 +15,7 @@ The plugin adds one MCP server. It stores no credentials: you sign in to n8n wit
 2. Cursor asks for the **n8n MCP server URL**. To get it:
    1. In n8n, open **Settings > Instance-level MCP** and click **Connect**.
    2. Select **Cursor** and copy the **Server URL**. It looks like `https://acme.app.n8n.cloud/mcp-server/http`.
-3. Paste the URL and confirm.
+3. Paste the URL and click **Save**.
 4. Sign in to n8n in your browser and approve access.
 
 To change the URL later, open **Cursor Settings > Plugins > n8n > Configure**.
@@ -33,21 +33,44 @@ On a Cursor team marketplace, an admin can set the URL one time for all members.
 
 ## Develop
 
+Cursor loads local plugins from `~/.cursor/plugins/local`. It ignores symlinks that point outside that folder, so copy the plugin into it.
+
 1. Clone this repository.
-2. Link the clone into the Cursor local plugins folder. Then reload Cursor.
+2. From the repository root, copy the plugin into the Cursor local plugins folder:
 
    ```bash
    mkdir -p ~/.cursor/plugins/local
-   ln -s "$(pwd)" ~/.cursor/plugins/local/n8n
+   rsync -a --delete --exclude .git ./ ~/.cursor/plugins/local/n8n/
    ```
 
-3. Do steps 2 to 4 of [Install](#install).
-4. Validate the manifests with the Cursor plugin template validator. Run it from the repository root.
+3. In Cursor, run **Developer: Reload Window**. The plugin shows in **Cursor Settings > Plugins** with a **Local** label.
+4. Open the plugin, click **Configure**, paste the Server URL, and click **Save**.
+5. Quit Cursor and open it again. Cursor applies the URL when it loads the plugin.
 
-   ```bash
-   git clone --depth 1 https://github.com/cursor/plugin-template /tmp/cursor-plugin-template
-   node /tmp/cursor-plugin-template/scripts/validate-template.mjs
-   ```
+After each change, run the `rsync` command again and reload Cursor.
+
+To see the URL that Cursor uses, search the newest `mcpprocess.log` for `origin:` (macOS):
+
+```bash
+grep "origin:" "$(ls -td ~/Library/Application\ Support/Cursor/logs/*/ | head -1)mcpprocess.log" | tail -3
+```
+
+Cursor reads environment variables before saved values. To test without the form, start Cursor with the variable set (macOS):
+
+```bash
+N8N_MCP_URL="http://localhost:5678/mcp-server/http" /Applications/Cursor.app/Contents/MacOS/Cursor
+```
+
+Cursor shows local plugins with a capitalized name, such as **N8n**. Marketplace installs use the `displayName` from `plugin.json`.
+
+### Validate
+
+Run the Cursor plugin template validator from the repository root:
+
+```bash
+git clone --depth 1 https://github.com/cursor/plugin-template /tmp/cursor-plugin-template
+node /tmp/cursor-plugin-template/scripts/validate-template.mjs
+```
 
 ## License
 
