@@ -1,0 +1,26 @@
+{
+  "name": "n8n",
+  "displayName": "n8n",
+  "version": "0.1.0",
+  "description": "Build, test, and run workflows on your n8n instance from Cursor.",
+  "author": {
+    "name": "n8n"
+  },
+  "homepage": "https://docs.n8n.io/build/ways-of-building-workflows/connect-to-n8n-mcp-server",
+  "repository": "https://github.com/n8n-io/n8n-cursor-plugin",
+  "license": "Apache-2.0",
+  "keywords": ["n8n", "workflow", "automation", "mcp"],
+  "logo": "assets/logo.svg",
+  "mcpServers": "./mcp.json",
+  "variables": {
+    "type": "object",
+    "properties": {
+      "N8N_MCP_URL": {
+        "type": "string",
+        "title": "n8n MCP server URL",
+        "description": "In n8n, open Settings > Instance-level MCP, click Connect, select Cursor, and copy the Server URL. Example: https://acme.app.n8n.cloud/mcp-server/http"
+      }
+    },
+    "required": ["N8N_MCP_URL"]
+  }
+}
