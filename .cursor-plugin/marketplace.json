@@ -1,0 +1,16 @@
+{
+  "name": "n8n",
+  "owner": {
+    "name": "n8n"
+  },
+  "metadata": {
+    "description": "Official n8n plugin for Cursor"
+  },
+  "plugins": [
+    {
+      "name": "n8n",
+      "source": ".",
+      "description": "Build, test, and run workflows on your n8n instance from Cursor."
+    }
+  ]
+}
