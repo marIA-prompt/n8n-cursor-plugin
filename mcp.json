@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "n8n": {
-      "type": "http",
-      "url": "${N8N_MCP_URL}"
+      "type": "streamable-http",
+      "url": "http://n8n-operacoes.senff.com.br:5678/mcp-server/http"
     }
   }
 }
